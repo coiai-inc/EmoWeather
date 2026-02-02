@@ -1,17 +1,13 @@
 name = "emoweather-worker"
 main = "workers/index.ts"
 compatibility_date = "2024-01-01"
+type = "javascript"
 
 [env.production]
 vars = { ENVIRONMENT = "production" }
 
 [env.development]
 vars = { ENVIRONMENT = "development" }
-
-# Routes
-routes = [
-  { pattern = "emoweather.dev/api/*", zone_name = "emoweather.dev" }
-]
 
 # Triggers - scheduled
 [triggers]
