@@ -8,7 +8,7 @@ import { MapPin } from 'lucide-react'
 
 export default function Home() {
   const [refreshKey, setRefreshKey] = useState(0)
-  const [selectedCity, setSelectedCity] = useState<string | undefined>(undefined)
+  const [selectedCity] = useState<string | undefined>(undefined)
 
   const handleCheckInSuccess = () => {
     // Trigger map refresh

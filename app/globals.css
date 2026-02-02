@@ -19,27 +19,27 @@ body {
 
 /* Emotion color utilities */
 .emotion-happy {
-  @apply text-emotion-happy;
+  color: #FFD700;
 }
 
 .emotion-sad {
-  @apply text-emotion-sad;
+  color: #4169E1;
 }
 
 .emotion-angry {
-  @apply text-emotion-angry;
+  color: #FF4500;
 }
 
 .emotion-calm {
-  @apply text-emotion-calm;
+  color: #90EE90;
 }
 
 .emotion-excited {
-  @apply text-emotion-excited;
+  color: #FF1493;
 }
 
 .emotion-neutral {
-  @apply text-gray-400;
+  color: #9ca3af;
 }
 
 /* Mapbox overrides */

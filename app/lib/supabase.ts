@@ -12,14 +12,12 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey)
 // Helper functions for common operations
 export async function getCheckins(
   limit: number = 100,
-  offset: number = 0,
 ) {
   const { data, error } = await supabase
     .from('checkins')
     .select('*')
     .order('created_at', { ascending: false })
     .limit(limit)
-    .offset(offset)
 
   if (error) throw error
   return data
@@ -84,13 +82,17 @@ export async function insertCheckin(checkin: {
   return data[0]
 }
 
-export async function subscribeToCheckins(callback: (checkin: any) => void) {
-  const subscription = supabase
-    .from('checkins')
-    .on('*', (payload) => {
+export function subscribeToCheckins(callback: (checkin: any) => void) {
+  const channel = supabase
+    .channel('checkins-subscription')
+    .on('postgres_changes', {
+      event: 'INSERT',
+      schema: 'public',
+      table: 'checkins',
+    }, (payload) => {
       callback(payload.new)
     })
     .subscribe()
 
-  return subscription
+  return channel
 }

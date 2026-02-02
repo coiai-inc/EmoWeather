@@ -73,9 +73,13 @@ export function Map({ className = '', refreshInterval = 5000 }: MapProps) {
     fetchCheckins()
 
     // Set up real-time subscription
-    const subscription = supabase
-      .from('checkins')
-      .on('*', (payload) => {
+    const channel = supabase
+      .channel('checkins-channel')
+      .on('postgres_changes', {
+        event: 'INSERT',
+        schema: 'public',
+        table: 'checkins',
+      }, (payload) => {
         setCheckins((prev) => [payload.new as Checkin, ...prev].slice(0, 1000))
       })
       .subscribe()
@@ -84,7 +88,9 @@ export function Map({ className = '', refreshInterval = 5000 }: MapProps) {
 
     return () => {
       clearInterval(interval)
-      subscription?.unsubscribe()
+      if (channel) {
+        supabase.removeChannel(channel)
+      }
     }
   }, [refreshInterval])
 

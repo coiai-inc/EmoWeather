@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import { supabase } from '@/app/lib/supabase'
 import type { EmotionStatsHourly, EmotionType } from '@/app/types'
-import { TrendingUp, TrendingDown } from 'lucide-react'
+import { TrendingUp } from 'lucide-react'
 
 const emotionLabels: Record<EmotionType, string> = {
   happy: '😊 Happy',
@@ -58,7 +58,7 @@ export function RegionStats({ city, refreshInterval = 10000 }: RegionStatsProps)
         }
 
         data?.forEach((stat) => {
-          emotionCount[stat.emotion] += stat.count
+          emotionCount[stat.emotion as EmotionType] += stat.count
         })
 
         const sorted = Object.entries(emotionCount)
@@ -95,7 +95,7 @@ export function RegionStats({ city, refreshInterval = 10000 }: RegionStatsProps)
         </h2>
 
         <div className="space-y-3">
-          {topEmotions.map((item, index) => {
+          {topEmotions.map((item) => {
             const percentage = stats.length > 0 ? (item.count / stats.reduce((acc, s) => acc + s.count, 0)) * 100 : 0
 
             return (

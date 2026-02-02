@@ -58,7 +58,7 @@ export function EmotionCheckIn({ onSuccess, onError }: EmotionCheckInProps) {
       const countryCode = geoData.address?.country_code?.toUpperCase() || ''
 
       // Insert checkin
-      const { data, error: supabaseError } = await supabase
+      const { error: supabaseError } = await supabase
         .from('checkins')
         .insert([
           {
@@ -70,7 +70,6 @@ export function EmotionCheckIn({ onSuccess, onError }: EmotionCheckInProps) {
             comment: comment || null,
           },
         ])
-        .select()
 
       if (supabaseError) {
         throw supabaseError
