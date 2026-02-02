@@ -1,0 +1,40 @@
+{
+  "name": "emoweather",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "supabase:generate": "supabase gen types typescript --project-id YOUR_PROJECT_ID > app/types/supabase.ts"
+  },
+  "dependencies": {
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3",
+    "next": "^16.1.6",
+    "@supabase/supabase-js": "^2.38.0",
+    "@supabase/auth-helpers-nextjs": "^0.15.0",
+    "mapbox-gl": "^3.1.0",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.0.0",
+    "tailwind-merge": "^2.2.0",
+    "lucide-react": "^0.292.0",
+    "axios": "^1.6.0",
+    "dotenv": "^16.3.1"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3",
+    "@types/node": "^20.19.30",
+    "@types/react": "^19.2.10",
+    "@types/react-dom": "^19.2.3",
+    "@tailwindcss/postcss": "^4.1.18",
+    "tailwindcss": "^4.1.18",
+    "eslint": "^9.39.2",
+    "eslint-config-next": "^16.1.6",
+    "@radix-ui/react-dialog": "^1.1.1",
+    "@radix-ui/react-select": "^2.0.0",
+    "@radix-ui/react-slot": "^2.0.2",
+    "shadcn-ui": "^0.0.4"
+  }
+}

@@ -1,0 +1,84 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  line-height: 1.6;
+}
+
+/* Emotion color utilities */
+.emotion-happy {
+  @apply text-emotion-happy;
+}
+
+.emotion-sad {
+  @apply text-emotion-sad;
+}
+
+.emotion-angry {
+  @apply text-emotion-angry;
+}
+
+.emotion-calm {
+  @apply text-emotion-calm;
+}
+
+.emotion-excited {
+  @apply text-emotion-excited;
+}
+
+.emotion-neutral {
+  @apply text-gray-400;
+}
+
+/* Mapbox overrides */
+.mapboxgl-canvas {
+  border-radius: 12px;
+}
+
+.mapboxgl-popup {
+  border-radius: 8px;
+}
+
+.mapboxgl-popup-content {
+  border-radius: 8px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+/* Animations */
+@keyframes pulse-slow {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.animate-pulse-slow {
+  animation: pulse-slow 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Responsive utilities */
+@media (max-width: 768px) {
+  .hide-mobile {
+    display: none;
+  }
+}
+
+@media (min-width: 769px) {
+  .hide-desktop {
+    display: none;
+  }
+}
