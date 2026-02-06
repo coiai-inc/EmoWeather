@@ -167,10 +167,11 @@ export function EmotionCheckIn({ onSuccess, onError }: EmotionCheckInProps) {
         <button
           type="submit"
           disabled={loading || !selectedEmotion}
-          className="w-full py-4 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 disabled:opacity-40 disabled:cursor-not-allowed rounded-xl font-bold text-lg text-white shadow-glow-lg hover:shadow-glow-xl transition-all duration-300 transform hover:scale-105 flex items-center justify-center gap-2"
+          className="w-full py-4 bg-gradient-to-r from-purple-600 via-indigo-600 to-purple-600 hover:from-purple-500 hover:via-indigo-500 hover:to-purple-500 disabled:opacity-40 disabled:cursor-not-allowed rounded-xl font-bold text-lg text-white shadow-glow-lg hover:shadow-glow-xl transition-all duration-300 transform hover:scale-105 flex items-center justify-center gap-2 relative overflow-hidden group"
         >
+          <div className="absolute inset-0 bg-white/0 group-hover:bg-white/10 transition-all duration-300" />
           {loading && <Loader2 className="w-5 h-5 animate-spin" />}
-          {loading ? 'Recording...' : '✨ Share Your Feeling'}
+          <span className="relative">{loading ? 'Recording...' : '🎭 Share Your Feeling'}</span>
         </button>
       </form>
 
