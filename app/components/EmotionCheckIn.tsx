@@ -6,12 +6,12 @@ import type { EmotionType } from '@/app/types'
 import { AlertCircle, CheckCircle, Loader2 } from 'lucide-react'
 
 const emotions = [
-  { id: 'happy', label: '😊 Happy', color: 'emotion-happy' },
-  { id: 'sad', label: '😢 Sad', color: 'emotion-sad' },
-  { id: 'angry', label: '😠 Angry', color: 'emotion-angry' },
-  { id: 'calm', label: '😌 Calm', color: 'emotion-calm' },
-  { id: 'excited', label: '🤩 Excited', color: 'emotion-excited' },
-  { id: 'neutral', label: '😐 Neutral', color: 'emotion-neutral' },
+  { id: 'happy', label: '😊 Happy', color: '#FFD700' },
+  { id: 'sad', label: '😢 Sad', color: '#6495ED' },
+  { id: 'angry', label: '😠 Angry', color: '#FF6B6B' },
+  { id: 'calm', label: '😌 Calm', color: '#4ECDC4' },
+  { id: 'excited', label: '🤩 Excited', color: '#FF1493' },
+  { id: 'neutral', label: '😐 Neutral', color: '#A0AEC0' },
 ]
 
 interface EmotionCheckInProps {
@@ -100,20 +100,31 @@ export function EmotionCheckIn({ onSuccess, onError }: EmotionCheckInProps) {
         {/* Emotion Selection */}
         <div>
           <label className="block text-sm font-semibold text-purple-200 mb-4 uppercase tracking-wide">Select Your Emotion</label>
-          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
             {emotions.map((emotion) => (
               <button
                 key={emotion.id}
                 type="button"
                 onClick={() => setSelectedEmotion(emotion.id as EmotionType)}
-                className={`group relative p-4 rounded-xl border-2 transition-all duration-300 transform ${
+                style={selectedEmotion === emotion.id ? { 
+                  borderColor: emotion.color,
+                  boxShadow: `0 0 30px ${emotion.color}80, 0 0 60px ${emotion.color}40`,
+                  backgroundColor: `${emotion.color}15`
+                } : {
+                  backgroundColor: 'rgba(0, 0, 0, 0.3)'
+                }}
+                className={`group relative p-4 rounded-xl border-2 transition-all duration-300 transform overflow-hidden ${
                   selectedEmotion === emotion.id
-                    ? 'border-purple-400 bg-gradient-to-br from-purple-500/40 to-indigo-500/40 scale-110 shadow-glow-md'
-                    : 'border-purple-500/20 hover:border-purple-400/60 bg-black/30 hover:bg-purple-500/10'
+                    ? 'scale-110 shadow-lg'
+                    : 'border-purple-500/20 hover:border-purple-400/60 hover:bg-purple-500/10'
                 }`}
               >
-                <div className="text-5xl mb-2 transition-transform duration-300 group-hover:scale-125">{emotion.label.split(' ')[0]}</div>
-                <div className="text-xs font-medium text-purple-200">{emotion.label.split(' ')[1]}</div>
+                {/* Background animation */}
+                {selectedEmotion === emotion.id && (
+                  <div className="absolute inset-0 animate-pulse" style={{ backgroundColor: `${emotion.color}15` }} />
+                )}
+                <div className="relative text-5xl mb-2 transition-transform duration-300 group-hover:scale-125 inline-block">{emotion.label.split(' ')[0]}</div>
+                <div className="relative text-xs font-medium text-purple-200">{emotion.label.split(' ')[1]}</div>
               </button>
             ))}
           </div>

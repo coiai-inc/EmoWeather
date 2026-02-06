@@ -18,8 +18,9 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-black via-purple-950 to-black relative overflow-hidden">
       {/* Animated Background Orbs */}
-      <div className="absolute top-0 left-1/4 w-96 h-96 bg-purple-600/20 rounded-full blur-3xl animate-pulse-slow" style={{ animation: 'float 8s ease-in-out infinite' }} />
-      <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-indigo-600/20 rounded-full blur-3xl animate-pulse-slow" style={{ animation: 'float 10s ease-in-out infinite -2s' }} />
+      <div className="absolute top-0 left-1/4 w-96 h-96 bg-purple-600/20 rounded-full blur-3xl animate-float" />
+      <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-indigo-600/20 rounded-full blur-3xl animate-float" style={{ animationDelay: '-2s' }} />
+      <div className="absolute top-1/2 right-1/3 w-72 h-72 bg-pink-600/15 rounded-full blur-3xl animate-float" style={{ animationDelay: '-4s' }} />
       
       <div className="max-w-7xl mx-auto px-4 py-12 relative z-10">
         {/* Hero Section */}

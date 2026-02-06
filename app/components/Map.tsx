@@ -40,6 +40,13 @@ export function Map({ className = '', refreshInterval = 5000 }: MapProps) {
         center: [0, 20],
         zoom: 2,
         pitch: 0,
+        attributionControl: false,
+      })
+
+      // Add custom styling
+      map.current.on('load', () => {
+        // Darken the map further
+        map.current?.setPaintProperty('background', 'background-color', '#0a0014')
       })
     }
 

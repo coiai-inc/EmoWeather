@@ -94,23 +94,24 @@ export function RegionStats({ city, refreshInterval = 10000 }: RegionStatsProps)
           {city && <span className="text-lg font-normal text-purple-300 ml-3 block mt-2">in {city}</span>}
         </h2>
 
-        <div className="space-y-4">
-          {topEmotions.map((item) => {
+        <div className="space-y-5">
+          {topEmotions.map((item, idx) => {
             const percentage = stats.length > 0 ? (item.count / stats.reduce((acc, s) => acc + s.count, 0)) * 100 : 0
             const emotionColor = getEmotionColor(item.emotion)
 
             return (
-              <div key={item.emotion} className="space-y-2">
+              <div key={item.emotion} className="space-y-2 group">
                 <div className="flex items-center justify-between">
-                  <span className="font-semibold text-purple-100">{emotionLabels[item.emotion]}</span>
-                  <span className="text-sm font-bold text-purple-300">{item.count} check-ins</span>
+                  <span className="font-semibold text-purple-100 group-hover:text-white transition-colors">{emotionLabels[item.emotion]}</span>
+                  <span className="text-sm font-bold text-purple-300 group-hover:text-purple-200 transition-colors">{item.count} check-ins</span>
                 </div>
-                <div className="w-full bg-black/40 rounded-full h-3 overflow-hidden border border-purple-500/20">
+                <div className="w-full bg-black/40 rounded-full h-4 overflow-hidden border border-purple-500/30 group-hover:border-purple-400/60 transition-all relative" style={{ boxShadow: `inset 0 0 10px ${emotionColor}20` }}>
                   <div
-                    className="h-full transition-all duration-500 rounded-full"
+                    className="h-full transition-all duration-700 rounded-full"
                     style={{ 
                       width: `${percentage}%`,
-                      background: `linear-gradient(90deg, ${emotionColor}, ${emotionColor}dd)`
+                      background: `linear-gradient(90deg, ${emotionColor}, ${emotionColor}dd)`,
+                      boxShadow: `0 0 15px ${emotionColor}80, inset 0 0 10px ${emotionColor}40`
                     }}
                   />
                 </div>
