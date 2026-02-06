@@ -95,7 +95,7 @@ export function RegionStats({ city, refreshInterval = 10000 }: RegionStatsProps)
         </h2>
 
         <div className="space-y-5">
-          {topEmotions.map((item, idx) => {
+          {topEmotions.map((item) => {
             const percentage = stats.length > 0 ? (item.count / stats.reduce((acc, s) => acc + s.count, 0)) * 100 : 0
             const emotionColor = getEmotionColor(item.emotion)
 
