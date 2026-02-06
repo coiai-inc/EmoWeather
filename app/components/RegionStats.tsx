@@ -79,35 +79,39 @@ export function RegionStats({ city, refreshInterval = 10000 }: RegionStatsProps)
 
   if (loading) {
     return (
-      <div className="bg-slate-800 rounded-lg border border-slate-700 p-6 text-center text-slate-400">
+      <div className="bg-gradient-to-br from-purple-900/20 to-indigo-900/10 backdrop-blur-md rounded-2xl border border-purple-500/20 p-8 text-center text-purple-300 animate-pulse">
         Loading statistics...
       </div>
     )
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       {/* Top Emotions */}
-      <div className="bg-slate-800 rounded-lg border border-slate-700 p-6 shadow-xl">
-        <h2 className="text-2xl font-bold mb-4">
+      <div className="bg-gradient-to-br from-purple-900/30 to-indigo-900/20 backdrop-blur-md rounded-2xl border border-purple-500/30 p-8 shadow-glow-lg hover:border-purple-400/60 transition-all duration-300">
+        <h2 className="text-3xl font-bold bg-gradient-to-r from-purple-200 to-pink-200 bg-clip-text text-transparent mb-8">
           Emotion Trends
-          {city && <span className="text-base font-normal text-slate-400 ml-2">in {city}</span>}
+          {city && <span className="text-lg font-normal text-purple-300 ml-3 block mt-2">in {city}</span>}
         </h2>
 
-        <div className="space-y-3">
+        <div className="space-y-4">
           {topEmotions.map((item) => {
             const percentage = stats.length > 0 ? (item.count / stats.reduce((acc, s) => acc + s.count, 0)) * 100 : 0
+            const emotionColor = getEmotionColor(item.emotion)
 
             return (
-              <div key={item.emotion} className="space-y-1">
+              <div key={item.emotion} className="space-y-2">
                 <div className="flex items-center justify-between">
-                  <span className="font-medium">{emotionLabels[item.emotion]}</span>
-                  <span className="text-sm text-slate-400">{item.count} check-ins</span>
+                  <span className="font-semibold text-purple-100">{emotionLabels[item.emotion]}</span>
+                  <span className="text-sm font-bold text-purple-300">{item.count} check-ins</span>
                 </div>
-                <div className="w-full bg-slate-700 rounded-full h-2 overflow-hidden">
+                <div className="w-full bg-black/40 rounded-full h-3 overflow-hidden border border-purple-500/20">
                   <div
-                    className="h-full bg-gradient-to-r from-blue-500 to-purple-500 transition-all duration-300"
-                    style={{ width: `${percentage}%` }}
+                    className="h-full transition-all duration-500 rounded-full"
+                    style={{ 
+                      width: `${percentage}%`,
+                      background: `linear-gradient(90deg, ${emotionColor}, ${emotionColor}dd)`
+                    }}
                   />
                 </div>
               </div>
@@ -117,36 +121,48 @@ export function RegionStats({ city, refreshInterval = 10000 }: RegionStatsProps)
       </div>
 
       {/* Recent Activity */}
-      <div className="bg-slate-800 rounded-lg border border-slate-700 p-6 shadow-xl">
-        <h3 className="text-xl font-bold mb-4">Recent Activity</h3>
+      <div className="bg-gradient-to-br from-purple-900/30 to-indigo-900/20 backdrop-blur-md rounded-2xl border border-purple-500/30 p-8 shadow-glow-lg hover:border-purple-400/60 transition-all duration-300">
+        <h3 className="text-3xl font-bold bg-gradient-to-r from-purple-200 to-pink-200 bg-clip-text text-transparent mb-6">Recent Activity</h3>
 
-        <div className="space-y-2 max-h-96 overflow-y-auto">
+        <div className="space-y-3 max-h-96 overflow-y-auto">
           {stats.length > 0 ? (
-            stats.slice(0, 10).map((stat) => (
-              <div key={`${stat.hour}-${stat.emotion}`} className="flex items-center justify-between p-3 bg-slate-700/50 rounded-lg hover:bg-slate-700 transition-colors">
+            stats.slice(0, 10).map((stat, index) => (
+              <div key={`${stat.hour}-${stat.emotion}`} className="group flex items-center justify-between p-4 bg-black/40 backdrop-blur-sm rounded-lg border border-purple-500/20 hover:border-purple-400/60 hover:bg-purple-500/10 transition-all duration-300" style={{ animationDelay: `${index * 50}ms` }}>
                 <div className="flex items-center gap-3">
-                  <span className="text-2xl">{getEmotionEmoji(stat.emotion)}</span>
+                  <span className="text-3xl transition-transform duration-300 group-hover:scale-125">{getEmotionEmoji(stat.emotion)}</span>
                   <div>
-                    <p className="font-medium capitalize">{stat.emotion}</p>
-                    <p className="text-sm text-slate-400">
+                    <p className="font-semibold capitalize text-purple-100">{stat.emotion}</p>
+                    <p className="text-sm text-purple-300/60">
                       {stat.city && `${stat.city} • `}
                       {new Date(stat.hour).toLocaleTimeString()}
                     </p>
                   </div>
                 </div>
-                <div className="flex items-center gap-1">
-                  <span className="font-bold">{stat.count}</span>
-                  {stat.count > 5 && <TrendingUp className="w-4 h-4 text-green-400" />}
+                <div className="flex items-center gap-2">
+                  <span className="font-bold text-purple-100 text-lg">{stat.count}</span>
+                  {stat.count > 5 && <TrendingUp className="w-4 h-4 text-purple-400 animate-pulse" />}
                 </div>
               </div>
             ))
           ) : (
-            <p className="text-slate-400 text-center py-8">No data available yet</p>
+            <p className="text-purple-300/60 text-center py-12">No data available yet</p>
           )}
         </div>
       </div>
     </div>
   )
+}
+
+function getEmotionColor(emotion: EmotionType): string {
+  const colors: Record<EmotionType, string> = {
+    happy: '#FFD700',
+    sad: '#6495ED',
+    angry: '#FF6B6B',
+    calm: '#4ECDC4',
+    excited: '#FF1493',
+    neutral: '#A0AEC0',
+  }
+  return colors[emotion]
 }
 
 function getEmotionEmoji(emotion: EmotionType): string {

@@ -1,79 +1,77 @@
-# EmoWeather Production Deployment Status
+# EmoWeather Deployment Status - 2026-02-06
 
-## 📋 Deployment Overview
+## 1. ✅ Cloudflare Workers Deployment
 
-This document tracks the production deployment of EmoWeather across multiple platforms.
+### Status: DEPLOYED ✓
+- **Worker Name:** `emoweather-worker-production`
+- **Account ID:** `cf9150dabff221c1b9a0e8e28aededbc`
+- **Latest Deployment ID:** `58acc380-9762-48bf-8220-79892447771b`
+- **Deployment Time:** 2026-02-06 16:37:25.686Z
+- **Author:** coiaibot@coiai.net
 
-**Deployment Date:** 2026-02-02  
-**Status:** In Progress ✅
+### Access Information
+The Worker has been successfully uploaded to Cloudflare. To access it:
+
+**Option 1: Register workers.dev subdomain**
+- Go to: https://dash.cloudflare.com/cf9150dabff221c1b9a0e8e28aededbc/workers/overview
+- Register a workers.dev subdomain (e.g., emoweather-worker.workers.dev)
+
+**Option 2: Configure Custom Domain Route**
+- Add route configuration to `wrangler.toml`:
+```toml
+routes = [
+  { pattern = "api.yourdomain.com/*", zone_name = "yourdomain.com" }
+]
+```
+
+### Environment Configuration
+- **Environment:** production
+- **Environment Variable:** ENVIRONMENT = "production"
+- **Scheduled Cron Trigger:** 0 * * * * (hourly)
+
+### Cloudflare Dashboard
+- Management: https://dash.cloudflare.com/cf9150dabff221c1b9a0e8e28aededbc/workers/overview
+- Logs: https://dash.cloudflare.com/cf9150dabff221c1b9a0e8e28aededbc/workers/view/emoweather-worker-production
 
 ---
 
-## 1️⃣ Supabase Database Migration
+## 2. ⚠️ Supabase Database Migration
 
-### Status: ✅ PREPARED
+### Status: PENDING VERIFICATION
+- **Project ID:** kqdoxoozooedecvtvdzp
+- **Project URL:** https://kqdoxoozooedecvtvdzp.supabase.co
+- **SQL Migration File:** `/Users/coiai/.openclaw/workspace/emoweather/supabase/migrations/001_init.sql`
 
-**Migration File:** `/Users/coiai/.openclaw/workspace/emoweather/supabase/migrations/001_init.sql`
+### Tables to be Created:
+1. ✓ `checkins` - Main emotion check-in data with spatial indexing
+2. ✓ `emotion_stats_hourly` - Hourly aggregated emotion statistics
+3. ✓ `user_profiles` - User profile information
 
-**Configuration:**
-- Project URL: `https://kqdoxoozooedecvtvdzp.supabase.co`
-- Anon Key: `sb_publishable_9yHRGRgRZz-JVdxpTQJFKg_DQuUmhQR`
+### Migration Scripts:
+- PostGIS and pg_trgm extensions
+- Custom ENUM type: `emotion_type` (happy, sad, angry, calm, excited, neutral)
+- Spatial indexes for location-based queries
+- RLS (Row Level Security) policies for public access
+- Trigger functions for automatic hourly aggregation
 
-**Tables to be Created:**
-- ✓ `checkins` - Main emotion checkin data with geographic support
-- ✓ `emotion_stats_hourly` - Hourly aggregated emotion statistics
-- ✓ `user_profiles` - User profile information
-
-**PostGIS Extensions:** ✓ Enabled for geographic queries
-
-**Row Level Security Policies:**
-- ✓ Public read access to checkins
-- ✓ Authenticated users can insert their own checkins
-- ✓ Public read access to statistics and user profiles
-- ✓ Users can update their own profiles
-
-### Migration Execution Options:
-
-**Option 1: Supabase Dashboard (Recommended)**
-1. Go to https://app.supabase.com
-2. Select project
-3. Navigate to SQL Editor
-4. Create new query
-5. Copy SQL from: `/Users/coiai/.openclaw/workspace/emoweather/supabase/migrations/001_init.sql`
-6. Execute
-
-**Option 2: Supabase CLI with Service Role Key**
-```bash
-cd /Users/coiai/.openclaw/workspace/emoweather
-supabase link --project-ref kqdoxoozooedecvtvdzp
-supabase db push
-```
-
-**Option 3: Direct REST API (with Service Role Key)**
-```bash
-curl -X POST \
-  'https://kqdoxoozooedecvtvdzp.supabase.co/rest/v1/query' \
-  -H 'apikey: [SERVICE_ROLE_KEY]' \
-  -H 'Content-Type: application/json' \
-  --data @migration.json
-```
+### Note on Authentication
+The provided access token format (`i-GdFcR2tmh9Ja`) does not match the expected Supabase PAT format. 
+The correct format should be `sbp_xxxxx...` The migration can be applied via:
+1. Supabase Dashboard > SQL Editor
+2. Copy-paste contents of `001_init.sql`
+3. Or update the access token to proper PAT format and run: `supabase db push`
 
 ---
 
-## 2️⃣ Next.js Application - Vercel Deployment
+## 3. ✅ Vercel Deployment
 
-### Status: ✅ BUILD COMPLETE
+### Status: DEPLOYED (Next.js Frontend)
+- **URL:** https://emoweather-bakf4u7uc-coiais-projects-b7ba72aa.vercel.app
+- **Build Command:** `npm run build`
+- **Output Directory:** `.next`
+- **Install Command:** `npm install`
 
-**Build Output:**
-```
-✓ Compiled successfully in 7.9s
-✓ Generating static pages using 7 workers (4/4) in 678.8ms
-✓ Routes: / (static)
-```
-
-**Build Directory:** `.next/` (759 KB)
-
-**Environment Variables:**
+### Environment Variables (Configured)
 ```
 NEXT_PUBLIC_SUPABASE_URL=https://kqdoxoozooedecvtvdzp.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=sb_publishable_9yHRGRgRZz-JVdxpTQJFKg_DQuUmhQR
@@ -81,148 +79,85 @@ NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN=pk.eyJ1IjoiY29pYWkiLCJhIjoiY21sNHZsZGhuMDAycDNmc
 NEXT_PUBLIC_ENV=production
 ```
 
-**Dependencies:** ✓ All installed (459 packages)
-- React 18.2.0
-- Next.js 16.1.6
-- Supabase JS 2.38.0
+### Frontend Dependencies
+- Next.js 16.1.6 (React 18.2.0)
+- Supabase JS Client 2.38.0
 - Mapbox GL 3.1.0
 - Tailwind CSS 4.1.18
-
-### Vercel Deployment Steps:
-
-```bash
-cd /Users/coiai/.openclaw/workspace/emoweather
-
-# 1. Authenticate with Vercel (if not already)
-vercel login
-
-# 2. Deploy to production
-vercel --prod
-
-# Expected Output:
-# ✓ Production Deployment
-# ✓ Vercel URL: https://emoweather-[hash].vercel.app
-```
-
-**Configuration File:** `vercel.json`
-- Build Command: `npm run build`
-- Output Directory: `.next`
-- Install Command: `npm install`
-- Environment Variables: Already configured
+- Radix UI components
+- Lucide Icons
 
 ---
 
-## 3️⃣ Cloudflare Workers Deployment
+## 4. 📋 Service Integration Summary
 
-### Status: ✅ READY
-
-**Configuration File:** `wrangler.toml`
-- Entry Point: `workers/index.ts`
-- Compatibility Date: 2024-01-01
-- Environment: Production
-
-**Worker Features:**
-- ✓ CORS support for cross-origin requests
-- ✓ Request routing (API, App)
-- ✓ Response caching (heatmap: 5m, trends: 10m, stats: 30m)
-- ✓ Scheduled tasks (hourly aggregation)
-- ✓ Error handling
-
-### Cloudflare Workers Deployment Steps:
-
-```bash
-cd /Users/coiai/.openclaw/workspace/emoweather
-
-# 1. Authenticate with Wrangler (if not already)
-wrangler login
-
-# 2. Deploy to production
-wrangler deploy --env production
-
-# Expected Output:
-# ✓ Deployed to emoweather-worker.workers.dev
-```
+| Service | Status | Component |
+|---------|--------|-----------|
+| **Supabase DB** | Pending Migration | PostgreSQL backend |
+| **Cloudflare Worker** | ✅ Deployed | Serverless API/Cron |
+| **Vercel Frontend** | ✅ Deployed | Next.js App |
+| **Mapbox Maps** | ✅ Configured | Location visualization |
+| **Authentication** | ✅ Ready | Supabase Auth |
 
 ---
 
-## 4️⃣ Production Verification Checklist
+## 5. 🎯 Next Steps for Complete Deployment
 
-After all deployments, verify:
+1. **Apply Supabase SQL Migration**
+   ```bash
+   cd /Users/coiai/.openclaw/workspace/emoweather
+   # Option A: Via Supabase Dashboard
+   # Copy-paste contents of supabase/migrations/001_init.sql into SQL Editor
+   
+   # Option B: Via CLI (if auth token is updated)
+   # supabase db push
+   ```
 
-### Database Connectivity
-- [ ] Vercel can connect to Supabase
-- [ ] Tables exist: `checkins`, `emotion_stats_hourly`, `user_profiles`
-- [ ] RLS policies are active
+2. **Register Cloudflare Worker Domain**
+   - Visit: https://dash.cloudflare.com/cf9150dabff221c1b9a0e8e28aededbc/workers/overview
+   - Register workers.dev subdomain OR configure custom domain route
+   - Update API endpoint in Vercel environment variables if using custom domain
 
-### Application Functionality
-- [ ] Vercel URL is accessible
-- [ ] Mapbox map displays correctly
-- [ ] Emotion checkin form works
-- [ ] Data persists to Supabase
-- [ ] Statistics update correctly
-
-### Cloudflare Workers
-- [ ] Worker URL is accessible
-- [ ] CORS requests work
-- [ ] Caching is effective
-- [ ] Scheduled tasks trigger
-
-### Error Handling
-- [ ] Error pages display correctly
-- [ ] API errors return proper status codes
-- [ ] Logs are available in respective dashboards
+3. **Verify Integrations**
+   - Test checkin endpoint from Vercel frontend
+   - Verify location data in Supabase
+   - Check hourly aggregation via Worker cron job
 
 ---
 
-## 📊 Deployment Summary
+## 6. 📊 Deployment Credentials
 
-### Services Overview
+### Cloudflare
+- Account ID: `cf9150dabff221c1b9a0e8e28aededbc`
+- Auth: OAuth Token (coiaibot@coiai.net)
+- Status: ✅ Authenticated
 
-| Service | Status | URL | Note |
-|---------|--------|-----|------|
-| Supabase | 🔴 Pending | https://kqdoxoozooedecvtvdzp.supabase.co | Requires manual migration execution |
-| Vercel | ✅ Ready | TBD after deploy | Next.js app & API routes |
-| Cloudflare Workers | ✅ Ready | TBD after deploy | Caching & optimization layer |
+### Supabase
+- Project ID: `kqdoxoozooedecvtvdzp`
+- Project URL: `https://kqdoxoozooedecvtvdzp.supabase.co`
+- Auth: Token format requires verification
+- Status: ⚠️ Needs token update or dashboard access
 
-### Deployment Commands
-
-```bash
-# Full deployment
-cd /Users/coiai/.openclaw/workspace/emoweather
-
-# 1. Execute Supabase migration (Dashboard or CLI)
-# → Go to Supabase Dashboard or use CLI with service role key
-
-# 2. Deploy to Vercel
-vercel --prod
-
-# 3. Deploy to Cloudflare Workers
-wrangler deploy --env production
-```
+### Vercel
+- Deployment: Active
+- URL: https://emoweather-bakf4u7uc-coiais-projects-b7ba72aa.vercel.app
+- Auth: OAuth linked
+- Status: ✅ Deployed
 
 ---
 
-## 🔗 Resources
+## 📝 Deployment Checklist
 
-- **Project Directory:** `/Users/coiai/.openclaw/workspace/emoweather`
-- **Supabase Project:** https://app.supabase.com/projects
-- **Vercel Dashboard:** https://vercel.com/dashboard
-- **Cloudflare Workers:** https://dash.cloudflare.com/workers
+- [x] Cloudflare Worker uploaded and deployed
+- [x] Vercel Next.js frontend deployed
+- [ ] Supabase SQL migration applied
+- [ ] Database tables verified (checkins, emotion_stats_hourly, user_profiles)
+- [ ] Cloudflare Worker domain/route configured
+- [ ] End-to-end integration tested
+- [ ] Production monitoring configured
 
 ---
 
-## 📝 Notes
-
-- All dependencies have been resolved and verified
-- Next.js build completed successfully with no errors
-- Environment variables are configured in `vercel.json` and available
-- Supabase migration SQL is validated and ready
-- Cloudflare Workers configuration is optimized for production
-
-### Next Steps
-
-1. ✅ Execute Supabase migration
-2. ✅ Deploy to Vercel with `vercel --prod`
-3. ✅ Deploy to Cloudflare Workers with `wrangler deploy --env production`
-4. ✅ Verify all services are running
-5. ✅ Run integration tests on production URLs
+**Last Updated:** 2026-02-06 16:37:25Z
+**Deployed By:** Subagent (OpenClaw)
+**Deployment Status:** 66% Complete (2 of 3 critical components)

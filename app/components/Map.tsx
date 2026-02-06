@@ -8,9 +8,9 @@ import type { Checkin, EmotionType } from '@/app/types'
 
 const emotionColors: Record<EmotionType, string> = {
   happy: '#FFD700',
-  sad: '#4169E1',
-  angry: '#FF4500',
-  calm: '#90EE90',
+  sad: '#6495ED',
+  angry: '#FF6B6B',
+  calm: '#4ECDC4',
   excited: '#FF1493',
   neutral: '#A0AEC0',
 }
@@ -104,20 +104,30 @@ export function Map({ className = '', refreshInterval = 5000 }: MapProps) {
     // Add markers
     checkins.forEach((checkin) => {
       const el = document.createElement('div')
-      el.className = 'emotion-marker cursor-pointer'
+      el.className = 'emotion-marker cursor-pointer transition-transform duration-300 hover:scale-125'
       el.innerHTML = `
-        <div class="w-8 h-8 rounded-full flex items-center justify-center text-lg" 
-             style="background-color: ${emotionColors[checkin.emotion]}; box-shadow: 0 0 10px ${emotionColors[checkin.emotion]};">
+        <style>
+          @keyframes pulse-ring {
+            0% { box-shadow: 0 0 0 0 ${emotionColors[checkin.emotion]}99; }
+            70% { box-shadow: 0 0 0 8px ${emotionColors[checkin.emotion]}00; }
+            100% { box-shadow: 0 0 0 0 ${emotionColors[checkin.emotion]}00; }
+          }
+          .pulse-marker {
+            animation: pulse-ring 2s infinite;
+          }
+        </style>
+        <div class="pulse-marker w-10 h-10 rounded-full flex items-center justify-center text-lg font-bold transition-all duration-200" 
+             style="background-color: ${emotionColors[checkin.emotion]}; box-shadow: 0 0 15px ${emotionColors[checkin.emotion]}; border: 2px solid white;">
           ${getEmotionEmoji(checkin.emotion)}
         </div>
       `
 
       const popup = new mapboxgl.Popup({ offset: 25 }).setHTML(`
-        <div class="p-3 text-slate-900">
-          <p class="font-semibold capitalize">${checkin.emotion}</p>
-          ${checkin.city ? `<p class="text-sm">${checkin.city}</p>` : ''}
-          ${checkin.comment ? `<p class="text-sm italic">"${checkin.comment}"</p>` : ''}
-          <p class="text-xs text-slate-600 mt-1">${new Date(checkin.created_at).toLocaleTimeString()}</p>
+        <div class="p-4 bg-gradient-to-br from-purple-900 to-indigo-900 rounded-lg text-purple-100">
+          <p class="font-bold capitalize text-lg">${checkin.emotion}</p>
+          ${checkin.city ? `<p class="text-sm text-purple-200">${checkin.city}</p>` : ''}
+          ${checkin.comment ? `<p class="text-sm italic text-purple-200 mt-2">"${checkin.comment}"</p>` : ''}
+          <p class="text-xs text-purple-300/70 mt-2">${new Date(checkin.created_at).toLocaleTimeString()}</p>
         </div>
       `)
 

@@ -93,27 +93,27 @@ export function EmotionCheckIn({ onSuccess, onError }: EmotionCheckInProps) {
   }
 
   return (
-    <div className="bg-slate-800 rounded-lg border border-slate-700 p-6 shadow-xl">
-      <h2 className="text-2xl font-bold mb-4">How are you feeling?</h2>
+    <div role="form" className="bg-gradient-to-br from-purple-900/30 to-indigo-900/20 backdrop-blur-md rounded-2xl border border-purple-500/30 p-8 shadow-glow-lg hover:border-purple-400/60 transition-all duration-300">
+      <h2 className="text-3xl font-bold bg-gradient-to-r from-purple-200 to-pink-200 bg-clip-text text-transparent mb-6">How are you feeling?</h2>
 
-      <form onSubmit={handleSubmit} className="space-y-6">
+      <form onSubmit={handleSubmit} className="space-y-8">
         {/* Emotion Selection */}
         <div>
-          <label className="block text-sm font-medium mb-3">Select Your Emotion</label>
-          <div className="grid grid-cols-3 gap-3 md:grid-cols-6">
+          <label className="block text-sm font-semibold text-purple-200 mb-4 uppercase tracking-wide">Select Your Emotion</label>
+          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
             {emotions.map((emotion) => (
               <button
                 key={emotion.id}
                 type="button"
                 onClick={() => setSelectedEmotion(emotion.id as EmotionType)}
-                className={`p-3 rounded-lg border-2 transition-all ${
+                className={`group relative p-4 rounded-xl border-2 transition-all duration-300 transform ${
                   selectedEmotion === emotion.id
-                    ? 'border-blue-400 bg-blue-400/20 scale-105'
-                    : 'border-slate-600 hover:border-slate-500 bg-slate-700/50'
+                    ? 'border-purple-400 bg-gradient-to-br from-purple-500/40 to-indigo-500/40 scale-110 shadow-glow-md'
+                    : 'border-purple-500/20 hover:border-purple-400/60 bg-black/30 hover:bg-purple-500/10'
                 }`}
               >
-                <div className="text-3xl mb-1">{emotion.label.split(' ')[0]}</div>
-                <div className="text-xs text-slate-300">{emotion.label.split(' ')[1]}</div>
+                <div className="text-5xl mb-2 transition-transform duration-300 group-hover:scale-125">{emotion.label.split(' ')[0]}</div>
+                <div className="text-xs font-medium text-purple-200">{emotion.label.split(' ')[1]}</div>
               </button>
             ))}
           </div>
@@ -121,34 +121,34 @@ export function EmotionCheckIn({ onSuccess, onError }: EmotionCheckInProps) {
 
         {/* Comment */}
         <div>
-          <label htmlFor="comment" className="block text-sm font-medium mb-2">
-            Add a comment (optional)
+          <label htmlFor="comment" className="block text-sm font-semibold text-purple-200 mb-3 uppercase tracking-wide">
+            Share a thought (optional)
           </label>
           <textarea
             id="comment"
             value={comment}
             onChange={(e) => setComment(e.target.value)}
-            placeholder="What's on your mind?"
-            className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-lg focus:outline-none focus:border-blue-400 focus:ring-1 focus:ring-blue-400 text-white placeholder-slate-400"
-            rows={3}
+            placeholder="What's on your mind? 💭"
+            className="w-full px-5 py-3 bg-black/40 backdrop-blur-sm border border-purple-500/30 rounded-xl focus:outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-400/30 text-white placeholder-purple-300/50 transition-all duration-300"
+            rows={4}
             maxLength={500}
           />
-          <p className="text-xs text-slate-400 mt-1">{comment.length}/500</p>
+          <p className="text-xs text-purple-300/60 mt-2">{comment.length}/500</p>
         </div>
 
         {/* Error Message */}
         {error && (
-          <div className="flex items-center gap-2 p-3 bg-red-900/30 border border-red-600 rounded-lg">
-            <AlertCircle className="w-5 h-5 text-red-400" />
-            <p className="text-sm text-red-300">{error}</p>
+          <div className="flex items-center gap-3 p-4 bg-red-900/40 backdrop-blur-sm border border-red-500/50 rounded-lg animate-pulse-slow">
+            <AlertCircle className="w-5 h-5 text-red-300 flex-shrink-0" />
+            <p className="text-sm text-red-200">{error}</p>
           </div>
         )}
 
         {/* Success Message */}
         {success && (
-          <div className="flex items-center gap-2 p-3 bg-green-900/30 border border-green-600 rounded-lg">
-            <CheckCircle className="w-5 h-5 text-green-400" />
-            <p className="text-sm text-green-300">Your emotion has been recorded! 🎉</p>
+          <div className="flex items-center gap-3 p-4 bg-green-900/40 backdrop-blur-sm border border-green-500/50 rounded-lg animate-pulse-slow">
+            <CheckCircle className="w-5 h-5 text-green-300 flex-shrink-0" />
+            <p className="text-sm text-green-200">Your emotion has been recorded! 🎉</p>
           </div>
         )}
 
@@ -156,14 +156,14 @@ export function EmotionCheckIn({ onSuccess, onError }: EmotionCheckInProps) {
         <button
           type="submit"
           disabled={loading || !selectedEmotion}
-          className="w-full py-3 bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 disabled:opacity-50 disabled:cursor-not-allowed rounded-lg font-semibold transition-all flex items-center justify-center gap-2"
+          className="w-full py-4 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 disabled:opacity-40 disabled:cursor-not-allowed rounded-xl font-bold text-lg text-white shadow-glow-lg hover:shadow-glow-xl transition-all duration-300 transform hover:scale-105 flex items-center justify-center gap-2"
         >
           {loading && <Loader2 className="w-5 h-5 animate-spin" />}
-          {loading ? 'Submitting...' : 'Share Your Feeling'}
+          {loading ? 'Recording...' : '✨ Share Your Feeling'}
         </button>
       </form>
 
-      <p className="text-xs text-slate-400 mt-4 text-center">
+      <p className="text-xs text-purple-300/60 mt-6 text-center leading-relaxed">
         📍 Your location will be used to map emotions geographically
       </p>
     </div>
