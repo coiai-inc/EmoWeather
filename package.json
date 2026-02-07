@@ -10,30 +10,36 @@
     "supabase:generate": "supabase gen types typescript --project-id YOUR_PROJECT_ID > app/types/supabase.ts"
   },
   "dependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "next": "^16.1.6",
-    "@supabase/supabase-js": "^2.38.0",
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
+    "@mui/icons-material": "^7.3.7",
+    "@mui/lab": "^7.0.1-beta.21",
+    "@mui/material": "^7.3.7",
+    "@react-spring/web": "^10.0.3",
     "@supabase/auth-helpers-nextjs": "^0.15.0",
-    "mapbox-gl": "^3.1.0",
+    "@supabase/supabase-js": "^2.38.0",
+    "axios": "^1.6.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
-    "tailwind-merge": "^2.2.0",
+    "dotenv": "^16.3.1",
     "lucide-react": "^0.292.0",
-    "axios": "^1.6.0",
-    "dotenv": "^16.3.1"
+    "mapbox-gl": "^3.1.0",
+    "next": "^16.1.6",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "tailwind-merge": "^2.2.0"
   },
   "devDependencies": {
-    "typescript": "^5.9.3",
+    "@radix-ui/react-dialog": "^1.1.1",
+    "@radix-ui/react-select": "^2.0.0",
+    "@radix-ui/react-slot": "^1.2.0",
+    "@tailwindcss/postcss": "^4.1.18",
     "@types/node": "^20.19.30",
     "@types/react": "^18.2.0",
     "@types/react-dom": "^18.2.0",
-    "@tailwindcss/postcss": "^4.1.18",
-    "tailwindcss": "^4.1.18",
     "eslint": "^9.39.2",
     "eslint-config-next": "^16.1.6",
-    "@radix-ui/react-dialog": "^1.1.1",
-    "@radix-ui/react-select": "^2.0.0",
-    "@radix-ui/react-slot": "^1.2.0"
+    "tailwindcss": "^4.1.18",
+    "typescript": "^5.9.3"
   }
 }
